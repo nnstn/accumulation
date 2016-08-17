@@ -63,6 +63,9 @@ public class SingletonMain {
 		Class<?> clazz = Class.forName("com.pursuit.designmodel.singleton.Singleton1");
 		Constructor<?> constructor = clazz.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		
+		clazz.getConstructor(null).setAccessible(true);
+		
 		Singleton1 instance = (Singleton1) Class.forName("com.pursuit.designmodel.singleton.Singleton1").newInstance();
 	}
 }
