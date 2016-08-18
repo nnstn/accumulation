@@ -3,6 +3,7 @@ package com.pursuit.designmodel.proxy.easy.cglib;
 import java.lang.reflect.Method;
 
 import com.pursuit.designmodel.proxy.easy.DBQuery;
+import com.pursuit.designmodel.proxy.easy.IDBQuery;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -20,12 +21,17 @@ public class CglibProxy implements MethodInterceptor {
 	public CglibProxy() {
 		System.out.println("===========创建代理对象================");
 	}
-    public Object createProxy(Class clazz) {
+    public Object createProxy1(Class clazz) {
         Enhancer enhancer = new Enhancer();
-        //设置需要创建子类的类  
-        enhancer.setSuperclass(clazz);  
-        enhancer.setCallback(this);// 设置回调
+        enhancer.setSuperclass(clazz);   //设置需要创建子类的类  
+        enhancer.setCallback(this);// 指定切入器，定义代理类逻辑
         return enhancer.create();
+    }
+    public Object createProxy2() {
+    	Enhancer enhancer = new Enhancer();
+    	enhancer.setInterfaces(new Class[]{IDBQuery.class});//指定实现的接口
+    	enhancer.setCallback(new CglibProxy());// 指定切入器，定义代理类逻辑
+    	return enhancer.create();
     }
 
 	@Override
@@ -33,11 +39,11 @@ public class CglibProxy implements MethodInterceptor {
 			MethodProxy proxy) throws Throwable {
 		System.out.println("===========进入代理方法内部 1===========");
 		if(real==null){
-			new DBQuery();
+			real =new DBQuery();
 		}
 		System.out.println("===========进入代理方法内部 2===========");
 		//通过代理类调用父类中的方法  
-		
+		//Object result = method.invoke(real, args);
 		Object result = proxy.invokeSuper(obj, args);  
 		return result;
 	}
