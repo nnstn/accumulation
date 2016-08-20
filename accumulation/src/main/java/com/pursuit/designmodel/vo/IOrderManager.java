@@ -1,11 +1,11 @@
 package com.pursuit.designmodel.vo;
 
-import java.io.Serializable;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-public interface IOrderManager extends Remote,Serializable{
-	public Order getOrder();
-	public String getclientName();
-	public int getnumber();
-	public String getProductName();
+public interface IOrderManager extends Remote{
+	public Order getOrder() throws RemoteException;
+	public String getclientName() throws RemoteException;
+	public int getnumber() throws RemoteException;
+	public String getProductName() throws RemoteException;
 }

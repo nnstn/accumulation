@@ -7,6 +7,7 @@ public class Client {
 		IOrderManager manager = (IOrderManager) Naming.lookup("ordermanager");
 		Order order = manager.getOrder();
 		System.out.println(order);
+		System.out.println( manager.getclientName());
 	}
 	
 }
