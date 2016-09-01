@@ -22,7 +22,7 @@ public class MavenRemove {
 		for (int i = 0; i < filelist.size(); i++) {
 			String path = filelist.get(i);
 			System.out.println("删除："+path+"   ");
-			//System.out.println(deleteDir(new File(path)));
+			System.out.println(deleteDir(new File(path)));
 		}
 		
 	}
@@ -72,6 +72,9 @@ public class MavenRemove {
 	public static boolean isSecondLeafFlag(File files){
 		boolean flag =true;
 		File[] children = files.listFiles();
+		if(children.length==0){
+			flag=false;
+		}
 		for (int i = 0; i < children.length; i++) {
 			File file = children[i];
 			if(file.isDirectory()){
@@ -89,6 +92,10 @@ public class MavenRemove {
 	 */
 	public static boolean removeFlag(File files){
 		boolean flag =true;
+		if(files.getName().startsWith(".")){
+			return false;
+		}
+		
 		File[] children = files.listFiles();
 		
 		for (int i = 0; i < children.length; i++) {
