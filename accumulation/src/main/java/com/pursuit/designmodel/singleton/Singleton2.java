@@ -1,6 +1,10 @@
 package com.pursuit.designmodel.singleton;
 public enum Singleton2 {
-	instance ,instance1,instance2;
+	instance{
+		public void test(){
+			System.out.println("this is test");
+		}
+	} ,instance1,instance2;
 	
 	private Singleton2() {
     	System.out.println("私有化构造函数。初始化");
