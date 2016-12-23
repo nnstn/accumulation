@@ -1,13 +1,16 @@
 package com.pursuit.webdist;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
@@ -73,6 +76,26 @@ public class FileUtils {
 		return strBuffer.toString();
 	}
 	
+	
+	/**
+	 * @param file
+	 * @param code
+	 * @return
+	 * @throws IOException
+	 */
+	public static String readFile(String path,String code) throws IOException{
+		FileInputStream fInputStream = new FileInputStream(path);  
+		//code为上面方法里返回的编码方式  
+		InputStreamReader inputStreamReader = new InputStreamReader(fInputStream, code);  
+		BufferedReader in = new BufferedReader(inputStreamReader);  
+		StringBuilder sBuffer=  new StringBuilder();
+		String strTmp = "";  
+		//按行读取  
+		while (( strTmp = in.readLine()) != null) {  
+		    sBuffer.append(strTmp + "/n");  
+		}  
+		return sBuffer.toString();  
+	}
 	/**
 	 * 写文件
 	 * @param path
@@ -141,6 +164,32 @@ public class FileUtils {
 	public static boolean delete(String path){
 		File file = new File(path);
 	    return file.delete();
+	}
+	
+	
+	/** 
+	 * 判断文件的编码格式 
+	 * @return 文件编码格式 
+	 * @throws Exception 
+	 */  
+	public static String codeString(File fileName) throws Exception{  
+	    BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName));  
+	    int p = (bin.read() << 8) + bin.read();  
+	    String code = null;  
+	    switch (p) {  
+	        case 0xefbb:  
+	            code = "UTF-8";  
+	            break;  
+	        case 0xfffe:  
+	            code = "Unicode";  
+	            break;  
+	        case 0xfeff:  
+	            code = "UTF-16BE";  
+	            break;  
+	        default:  
+	            code = "GBK";  
+	    }  
+	    return code;  
 	}
 	
 }
