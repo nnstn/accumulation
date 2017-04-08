@@ -175,6 +175,7 @@ public class FileUtils {
 	public static String codeString(File fileName) throws Exception{  
 	    BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName));  
 	    int p = (bin.read() << 8) + bin.read();  
+	    System.out.println(p);
 	    String code = null;  
 	    switch (p) {  
 	        case 0xefbb:  
